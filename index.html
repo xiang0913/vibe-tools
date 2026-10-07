@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>一中街午餐救星 v3.1</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <header>
+        <h2 style="margin: 0; font-size: 20px;">🍽️ 一中街救星</h2>
+        <button class="user-btn" onclick="UserData.toggleTheme()">🌙</button>
+    </header>
+
+    <!-- 首頁 -->
+    <div id="screen-home" class="screen active">
+        <h1>今天想來點什麼？</h1>
+        <button class="btn btn-primary" onclick="startLottery('eat')" style="height: 120px; font-size: 28px; border-radius: 20px;">🍚 吃什麼？</button>
+        <button class="btn btn-secondary" onclick="startLottery('drink')" style="height: 120px; font-size: 28px; border-radius: 20px;">🥤 喝什麼？</button>
+    </div>
+
+    <!-- 抽獎畫面 -->
+    <div id="screen-lottery" class="screen">
+        <h1 id="lottery-title" style="margin-bottom: 10px;">準備抽獎</h1>
+        
+        <!-- 智慧篩選器 -->
+        <div id="filter-container"></div>
+        
+        <div id="wheel-container">
+            <div id="pointer">📍</div>
+            <canvas id="wheelCanvas" width="300" height="300"></canvas>
+        </div>
+        
+        <button id="btn-draw" class="btn btn-primary" onclick="executeDraw()">🎲 開始轉動！</button>
+        
+        <!-- 資訊卡片 -->
+        <div id="result-card" style="display: none; flex-direction: column; width: 100%; align-items: center;">
+            <div class="info-card">
+                <h2 id="res-name" style="margin: 0 0 10px 0; color: var(--primary-color);">店家名稱</h2>
+                <p id="res-address">📍 地址</p>
+                <p id="res-phone">📞 電話</p>
+                <p id="res-hours">⏰ 營業時間</p>
+                
+                <!-- 全新功能：內嵌微型地圖 -->
+                <div class="map-container">
+                    <iframe id="res-map-frame" src="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <!-- 三顆核心實用按鈕 (已徹底刪除 LINE) -->
+            <div class="action-buttons" style="margin-bottom: 10px;">
+                <button id="btn-fav" class="btn btn-outline" onclick="handleFavorite()">🤍 最愛</button>
+                <button class="btn btn-danger" onclick="handleBlacklist()">❌ 雷店</button>
+                <button class="btn btn-primary" onclick="handleCheckIn()">✅ 打卡</button>
+            </div>
+            
+            <a id="res-map-link" href="#" target="_blank" class="btn btn-secondary" style="text-align: center; text-decoration: none; width: 100%;">🗺️ 開啟 Google Maps App</a>
+            <button class="btn btn-outline" onclick="resetAndDraw()" style="margin-top: 8px; width: 100%;">🔄 再轉一次</button>
+        </div>
+    </div>
+
+    <!-- 列表畫面 -->
+    <div id="screen-list" class="screen">
+        <h1 id="list-title">清單</h1>
+        <div id="list-content" style="width: 100%; overflow-y: auto; flex: 1; padding-bottom: 20px;"></div>
+    </div>
+
+    <!-- 底部導覽列 -->
+    <nav id="bottom-nav">
+        <button class="nav-item active" onclick="switchScreen('screen-home', this)">
+            <div class="nav-icon">🏠</div>首頁
+        </button>
+        <button class="nav-item" onclick="viewList('favorites', this)">
+            <div class="nav-icon">❤️</div>最愛
+        </button>
+        <button class="nav-item" onclick="viewList('blacklist', this)">
+            <div class="nav-icon">❌</div>黑名單
+        </button>
+        <button class="nav-item" onclick="viewList('history', this)">
+            <div class="nav-icon">📅</div>紀錄
+        </button>
+    </nav>
+</div>
+
+<script src="data.js"></script>
+<script src="userData.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
